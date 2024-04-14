@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Messages</title>
+</head>
+<body>
+    <h1>Messages</h1>
+    {% for message in messages %}
+        <div>
+            <p><strong>From:</strong> {{ message.sender.username }}</p>
+            <p><strong>Message:</strong> {{ message.content }}</p>
+            <p><strong>Sent At:</strong> {{ message.timestamp }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

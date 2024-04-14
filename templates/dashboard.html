@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <h2>Welcome, {{ current_user.username }}!</h2>
+
+    <h3>Post a Message</h3>
+    <form method="POST" action="{{ url_for('dashboard') }}">
+        <input type="hidden" name="action" value="send_message">
+        <textarea name="message" placeholder="Write your message here..." required></textarea>
+        <button type="submit">Post Message</button>
+    </form>
+
+    <h3>View Posts</h3>
+    {% for message, display_content in messages %}
+        <div>
+            <p><strong>From:</strong> {{ message.sender.username }}</p>
+            <p><strong>Message:</strong> {{ display_content }}</p>
+            <p><strong>Sent At:</strong> {{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+    {% endfor %}
+
+    <h3>Add User to Secure Group</h3>
+    <form method="POST" action="{{ url_for('dashboard') }}">
+        <input type="hidden" name="action" value="add_user">
+        <select name="username">
+            {% for user in all_users %}
+                <option value="{{ user.username }}">{{ user.username }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Add to Group</button>
+    </form>
+
+    <h3>Remove User from Secure Group</h3>
+    <form method="POST" action="{{ url_for('dashboard') }}">
+        <input type="hidden" name="action" value="remove_user">
+        <select name="username">
+            {% for member in members %}
+                <option value="{{ member.username }}">{{ member.username }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Remove from Group</button>
+    </form>
+
+    <h3>Members of Your Secure Group</h3>
+    <ul>
+        {% for member in members %}
+            <li>{{ member.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+</body>
+</html>
